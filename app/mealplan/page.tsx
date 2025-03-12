@@ -5,9 +5,10 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import axios from 'axios'
-import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react'
+import React, { useEffect, useState, ChangeEvent, FormEvent, useRef } from 'react'
 import { toast } from 'sonner';
-import BarLoader from 'react-spinners/BarLoader'
+import { Skeleton } from '@/components/ui/skeleton'
+import SyncLoader from 'react-spinners/SyncLoader'
 interface MealPlanData {
   dietType: string;
   calorieGoal: string;
@@ -18,6 +19,8 @@ interface MealPlanData {
 
 
 const Page: React.FC = () => {
+  const array=new Array(3).fill(null)
+  const mealRef=useRef<HTMLDivElement>(null)
   const [meals, setMeals] = useState<any[]>([])
   const [data, setData] = useState<MealPlanData>({
     dietType: "",
@@ -63,6 +66,10 @@ const Page: React.FC = () => {
         allergies: "",
         cuisine: "",
         includeSnacks: false
+      })
+      mealRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
       })
       toast.success('Diet Plan Generated Successfully')
     } catch (error) {
@@ -152,14 +159,35 @@ const Page: React.FC = () => {
               </label>
             </div>
             <Button disabled={loading} type='submit'>
-              Generate Meal Plan
+              {
+                loading?<SyncLoader size={10} />:"Generate Meal Plan"
+
+              }
             </Button>
           </form>
         </CardContent>
       </Card>
-        {loading?<div className=' flex flex-col items-center justify-center h-[80vh] w-full'>
-          <BarLoader/>
-        </div>:
+        {loading?<div ref={mealRef} className='space-y-2 overflow-y-auto md:h-[80vh] p-3'>
+        <h1 className='text-2xl font-bold text-green-700 pb-2'>Weekly Meal Plan</h1>
+        
+        {
+          array.map((_, idx) => (
+            <Card  key={idx}>
+              <CardHeader>
+                
+                <Skeleton className='w-[200px] h-4'/>
+              </CardHeader>
+              <CardContent className='space-y-2'>
+                <Skeleton className='w-[80vw] md:w-[40vw] h-4'/>
+                <Skeleton className='w-[80vw] md:w-[40vw] h-4'/>
+                <Skeleton className='w-[80vw] md:w-[40vw] h-4'/>
+                
+                
+              </CardContent>
+            </Card>
+          ))
+        }
+      </div>:
 
           <div className='space-y-2 overflow-y-auto md:h-[80vh] p-3'>
         <h1 className='text-2xl font-bold text-green-700 pb-2'>Weekly Meal Plan</h1>
@@ -171,9 +199,9 @@ const Page: React.FC = () => {
                 <h1 className='text-xl text-blue-400'>{meal.day}</h1>
               </CardHeader>
               <CardContent className='space-y-2'>
-                <p className='text-gray-500'><span className='font-semibold text-black'>Breakfast:</span>{meal.breakfast}</p>
-                <p className='text-gray-500'><span className='font-semibold text-black'>Lunch:</span>{meal.lunch}</p>
-                <p className='text-gray-500'><span className='font-semibold text-black'>Dinner:</span>{meal.dinner}</p>
+                <p className='text-gray-500'><span className='font-semibold text-black'>Breakfast : </span>{meal.breakfast}</p>
+                <p className='text-gray-500'><span className='font-semibold text-black'>Lunch : </span>{meal.lunch}</p>
+                <p className='text-gray-500'><span className='font-semibold text-black'>Dinner : </span>{meal.dinner}</p>
               </CardContent>
             </Card>
           ))
