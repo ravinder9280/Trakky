@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import axios from 'axios'
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react'
 import { ColorRing } from 'react-loader-spinner'
+import { toast } from 'sonner';
 
 interface MealPlanData {
   dietType: string;
@@ -64,8 +65,10 @@ const Page: React.FC = () => {
         cuisine: "",
         includeSnacks: false
       })
+      toast.success('Diet Plan Generated Successfully')
     } catch (error) {
       console.error(error)
+      toast.error('Failed to generate diet plan')
     } finally {
       setLoading(false)
     }
