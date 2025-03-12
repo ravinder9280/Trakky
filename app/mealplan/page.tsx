@@ -5,41 +5,53 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react'
 
-const Page = () => {
-  const [meals, setMeals] = useState([])
+interface MealPlanData {
+  dietType: string;
+  calorieGoal: string;
+  allergies: string;
+  cuisine: string;
+  includeSnacks: boolean;
+}
 
-  useEffect(() => {
-    console.log(meals)
-  }, [meals])
-
-  const [data, setData] = useState({
+const Page: React.FC = () => {
+  const [meals, setMeals] = useState<any[]>([])
+  const [data, setData] = useState<MealPlanData>({
     dietType: "",
     calorieGoal: "",
     allergies: "",
     cuisine: "",
     includeSnacks: false
   })
-
   const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState<Partial<MealPlanData>>({})
 
-  const onChangeHandler = (e: any) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-    console.log(data)
+  useEffect(() => {
+    console.log(meals)
+  }, [meals])
+
+  const validate = (): boolean => {
+    const newErrors: Partial<MealPlanData> = {}
+    if (!data.dietType) newErrors.dietType = "Diet Type is required"
+    if (!data.calorieGoal) newErrors.calorieGoal = "Calorie Goal is required"
+    if (!data.allergies) newErrors.allergies = "Allergies are required"
+    if (!data.cuisine) newErrors.cuisine = "Cuisine is required"
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
   }
 
-  const onSubmitHandler = async (e) => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target
+    setData({ ...data, [name]: type === 'checkbox' ? checked : value })
+  }
+
+  const onSubmitHandler = async (e: FormEvent) => {
     e.preventDefault()
+    if (!validate()) return
     setLoading(true)
     try {
-      const response = await axios.post('/api/generate-meal', {
-        dietType: data.dietType,
-        calorieGoal: data.calorieGoal,
-        allergies: data.allergies,
-        cuisine: data.cuisine,
-        includeSnacks: data.includeSnacks
-      })
+      const response = await axios.post('/api/generate-meal', data)
       setMeals(response.data.diet)
       setData({
         dietType: "",
@@ -66,41 +78,71 @@ const Page = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={onSubmitHandler} className='flex flex-col space-y-4' action="">
+          <form onSubmit={onSubmitHandler} className='flex flex-col space-y-4'>
             <div className="space-y-2">
               <Label className="text-sm font-medium">
                 Diet Type
               </Label>
-              <Input placeholder='' value={data.dietType} onChange={onChangeHandler} name='dietType' className='bg-white h-12 text-black ' />
+              <Input
+                placeholder=''
+                value={data.dietType}
+                onChange={onChangeHandler}
+                name='dietType'
+                className='bg-white h-12 text-black'
+              />
+              {errors.dietType && <p className="text-red-500">{errors.dietType}</p>}
             </div>
             <div className="space-y-2">
               <Label className="text-sm font-medium">
                 Daily Calorie Goal
               </Label>
-              <Input onChange={onChangeHandler} value={data.calorieGoal} name='calorieGoal' className='bg-white h-12 text-black ' />
+              <Input
+                onChange={onChangeHandler}
+                value={data.calorieGoal}
+                name='calorieGoal'
+                className='bg-white h-12 text-black'
+              />
+              {errors.calorieGoal && <p className="text-red-500">{errors.calorieGoal}</p>}
             </div>
             <div className="space-y-2">
               <Label className="text-sm font-medium">
                 Allergies And Restrictions
               </Label>
-              <Input onChange={onChangeHandler} value={data.allergies} name='allergies' className='bg-white h-12 text-black ' />
+              <Input
+                onChange={onChangeHandler}
+                value={data.allergies}
+                name='allergies'
+                className='bg-white h-12 text-black'
+              />
+              {errors.allergies && <p className="text-red-500">{errors.allergies}</p>}
             </div>
             <div className="space-y-2">
               <Label className="text-sm font-medium">
                 Preferred Cuisine
               </Label>
-              <Input onChange={onChangeHandler} name='cuisine' value={data.cuisine} placeholder='' className='bg-white h-12 text-black ' />
+              <Input
+                onChange={onChangeHandler}
+                name='cuisine'
+                value={data.cuisine}
+                placeholder=''
+                className='bg-white h-12 text-black'
+              />
+              {errors.cuisine && <p className="text-red-500">{errors.cuisine}</p>}
             </div>
             <div className="flex items-center space-x-2">
-              <Checkbox id="terms" />
+              <Checkbox
+                id="includeSnacks"
+                name="includeSnacks"
+                checked={data.includeSnacks}
+                onChange={onChangeHandler}
+              />
               <label
-                htmlFor="terms"
+                htmlFor="includeSnacks"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Include Snacks
               </label>
             </div>
-
             <Button disabled={loading} type='submit'>
               Generate Meal Plan
             </Button>
@@ -109,7 +151,7 @@ const Page = () => {
       </Card>
 
       <div className='space-y-2 p-2'>
-        <h1>Diet Meal Plan</h1>
+        <h1 className='text-xl font-semibold text-green-700'>Diet Meal Plan</h1>
         {
           meals && meals.map((meal, idx) => (
             <Card key={idx}>
