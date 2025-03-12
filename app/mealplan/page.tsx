@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import axios from 'axios'
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react'
+import { ColorRing } from 'react-loader-spinner'
 
 interface MealPlanData {
   dietType: string;
@@ -154,14 +155,26 @@ const Page: React.FC = () => {
           </form>
         </CardContent>
       </Card>
+        {loading?<div className=' flex flex-col items-center justify-center h-[80vh] w-full'>
+          <ColorRing
+  visible={true}
+  height="80"
+  width="80"
+  ariaLabel="color-ring-loading"
+  wrapperStyle={{}}
+  wrapperClass="color-ring-wrapper"
+  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+  />
+        </div>:
 
-      <div className='space-y-2 p-2'>
-        <h1 className='text-xl font-semibold text-green-700'>Diet Meal Plan</h1>
+          <div className='space-y-2 overflow-y-auto md:h-[80vh] p-3'>
+        <h1 className='text-2xl font-bold text-green-700 pb-2'>Weekly Meal Plan</h1>
+        
         {
           meals && meals.map((meal, idx) => (
             <Card key={idx}>
               <CardHeader>
-                <h1 className='text-2xl text-blue-400'>{meal.day}</h1>
+                <h1 className='text-xl text-blue-400'>{meal.day}</h1>
               </CardHeader>
               <CardContent className='space-y-2'>
                 <p className='text-gray-500'><span className='font-semibold text-black'>Breakfast:</span>{meal.breakfast}</p>
@@ -172,6 +185,7 @@ const Page: React.FC = () => {
           ))
         }
       </div>
+        }
     </div>
   )
 }
