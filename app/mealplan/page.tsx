@@ -15,6 +15,7 @@ interface MealPlanData {
   includeSnacks: boolean;
 }
 
+
 const Page: React.FC = () => {
   const [meals, setMeals] = useState<any[]>([])
   const [data, setData] = useState<MealPlanData>({
@@ -26,10 +27,11 @@ const Page: React.FC = () => {
   })
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Partial<MealPlanData>>({})
-
+  
   useEffect(() => {
     console.log(meals)
   }, [meals])
+  
 
   const validate = (): boolean => {
     const newErrors: Partial<MealPlanData> = {}
@@ -44,6 +46,7 @@ const Page: React.FC = () => {
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target
     setData({ ...data, [name]: type === 'checkbox' ? checked : value })
+    console.log(data)
   }
 
   const onSubmitHandler = async (e: FormEvent) => {
@@ -133,8 +136,10 @@ const Page: React.FC = () => {
               <Checkbox
                 id="includeSnacks"
                 name="includeSnacks"
-                checked={data.includeSnacks}
-                onChange={onChangeHandler}
+                
+                onClick={()=>{
+                  setData({...data,includeSnacks:!data.includeSnacks})
+                }}
               />
               <label
                 htmlFor="includeSnacks"
