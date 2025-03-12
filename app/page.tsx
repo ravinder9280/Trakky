@@ -13,7 +13,7 @@ const page = () => {
           <p className="mx-auto max-w-[600px] text-muted md:text-xl">
                      Our AI meal planning system is designed to make meal planning easy and efficient.
         </p>
-        <Link className='' href={'/'}>
+        <Link className='' href={'/mealplan'}>
         <Button size="lg" className="px-6 bg-white hover:text-green-300 text-green-500">
               Get Started
             </Button>
