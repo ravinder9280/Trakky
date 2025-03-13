@@ -6,7 +6,7 @@ import Link from 'next/link';
 const Navbar = () => {
 
   return (
-    <nav className='flex items-center top-0 sticky bg-white border-b p-4 sm:px-12  justify-between'>
+    <nav className='flex items-center top-0 sticky z-50 bg-white border-b p-4 sm:px-12  justify-between'>
       <Link className='font-bold' href={'/'} >
       TRAKKY
       </Link> 

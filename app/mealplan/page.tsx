@@ -144,6 +144,7 @@ const Page: React.FC = () => {
             </div>
             <div className="flex items-center space-x-2">
               <Checkbox
+              className='cursor-pointer'
                 id="includeSnacks"
                 name="includeSnacks"
                 
