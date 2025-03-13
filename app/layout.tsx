@@ -4,6 +4,7 @@ import { Toaster } from 'sonner';
 
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { ClerkProvider } from "@clerk/nextjs";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+<ClerkProvider>
 
     <html lang="en">
       <link rel="icon" href="/vercel.svg" sizes="any" />
@@ -39,5 +41,6 @@ export default function RootLayout({
         {/* <Footer/> */}
       </body>
     </html>
+</ClerkProvider>
   );
 }

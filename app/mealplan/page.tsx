@@ -192,12 +192,14 @@ const Page: React.FC = () => {
           ))
         }
       </div>:
+      
 
           <div className='space-y-2 overflow-y-auto md:h-[80vh] p-3'>
         {
 
-        <h1 className='text-2xl font-bold text-green-700 pb-2'>Weekly Meal Plans</h1>
+        meals[0]?<h1 className='text-2xl font-bold text-green-700 pb-2'>Weekly Meal Plans</h1>:<></>
         }
+        
         
         {
           meals && meals.map((meal, idx) => (

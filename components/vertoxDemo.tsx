@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 
 export function VortexDemo() {
+  
   return (
     <div className="w-[calc(100%-2rem)] mx-auto rounded-md  h-[30rem] overflow-hidden">
       <Vortex

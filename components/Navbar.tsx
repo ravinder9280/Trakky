@@ -2,9 +2,9 @@
 import React from 'react'
 import { Button } from './ui/button'
 import Link from 'next/link';
-
+import { UserButton, useUser } from '@clerk/nextjs';
 const Navbar = () => {
-
+const {user}= useUser()
   return (
     <nav className='flex items-center top-0 sticky z-50 bg-white border-b p-4 sm:px-12  justify-between'>
       <Link className='font-bold' href={'/'} >
@@ -17,12 +17,14 @@ const Navbar = () => {
         </Button>
         </Link>
         
-             
-         <Link href={'/sign-in'}>
+           {user?<UserButton  />:
+
+             <Link href={'/sign-in'}>
         <Button variant={'outline'}  className=''>
             SignIn
         </Button>
          </Link>   
+           }  
         
       </div>
     </nav>
