@@ -20,12 +20,12 @@ export function VortexDemo() {
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
         <Link className='' href={'/mealplan'}>
-        <Button size="lg" className="px-6 bg-white hover:text-green-300 text-green-500">
+        <Button size="lg" className="px-6 hover:text-green-300 ">
               Get Started
             </Button>
         </Link>
         <Link className='' href={'/mealplan'}>
-        <Button size="lg" variant={"outline"} className="px-6 text-white border-green-500  ">
+        <Button size="lg" variant={"outline"} className="px-6   border-green-500  ">
               Contact Us
             </Button>
         </Link>

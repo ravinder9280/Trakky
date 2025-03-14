@@ -38,7 +38,7 @@ const page = () => {
                 key={index}
                 className="flex flex-col items-center text-center space-y-4"
               >
-                <div className="w-16 h-16 rounded-full bg-green-400  flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full text-foreground bg-primary-foreground   flex items-center justify-center">
                   {item.icon}
                 </div>
                 <h3 className="font-semibold text-xl">{item.title}</h3>

@@ -81,8 +81,8 @@ const Page: React.FC = () => {
   }
 
   return (
-    <div className='md:px-11 flex flex-col md:flex-row gap-2'>
-      <Card className='bg-green-500 md:max-w-[300px] rounded-none h-full text-white overflow-y-hidden'>
+    <div className='md:px-11 flex flex-col md:items-center md:justify-center  md:border-white md:p-4   md:border-b  md:flex-row gap-2'>
+      <Card className=' md:max-w-[300px] rounded-none h-full  overflow-y-hidden'>
         <CardHeader>
           <CardTitle className='text-center'>
             <h1 className='text-2xl text-center'>
@@ -101,7 +101,7 @@ const Page: React.FC = () => {
                 value={data.dietType}
                 onChange={onChangeHandler}
                 name='dietType'
-                className='bg-white h-12 text-black'
+                className=' h-12  border-foreground'
               />
               {errors.dietType && <p className="text-red-500">{errors.dietType}</p>}
             </div>
@@ -113,7 +113,7 @@ const Page: React.FC = () => {
                 onChange={onChangeHandler}
                 value={data.calorieGoal}
                 name='calorieGoal'
-                className='bg-white h-12 text-black'
+                className=' h-12  border-foreground'
               />
               {errors.calorieGoal && <p className="text-red-500">{errors.calorieGoal}</p>}
             </div>
@@ -125,7 +125,7 @@ const Page: React.FC = () => {
                 onChange={onChangeHandler}
                 value={data.allergies}
                 name='allergies'
-                className='bg-white h-12 text-black'
+                className=' h-12  border-foreground'
               />
               {errors.allergies && <p className="text-red-500">{errors.allergies}</p>}
             </div>
@@ -138,13 +138,13 @@ const Page: React.FC = () => {
                 name='cuisine'
                 value={data.cuisine}
                 placeholder=''
-                className='bg-white h-12 text-black'
+                className=' h-12  border-foreground'
               />
               {errors.cuisine && <p className="text-red-500">{errors.cuisine}</p>}
             </div>
             <div className="flex items-center space-x-2">
               <Checkbox
-              className='cursor-pointer'
+              className='cursor-pointer border-gray-300'
                 id="includeSnacks"
                 name="includeSnacks"
                 
@@ -194,23 +194,23 @@ const Page: React.FC = () => {
       </div>:
       
 
-          <div className='space-y-2 overflow-y-auto md:h-[80vh] p-3'>
+          <div className='space-y-2 overflow-y-auto border md:border-gray-200 md:min-w-[60vw] rounded-2xl md:h-[80vh] p-3'>
         {
 
-        meals[0]?<h1 className='text-2xl font-bold text-green-700 pb-2'>Weekly Meal Plans</h1>:<></>
+        meals[0]?<h1 className='text-2xl font-bold pb-2'>Weekly Meal Plans</h1>:<></>
         }
         
         
         {
           meals && meals.map((meal, idx) => (
-            <Card key={idx}>
+            <Card className='shadow-2xl bg-black/80 rounded-2xl' key={idx}>
               <CardHeader>
                 <h1 className='text-xl text-blue-400'>{meal.day}</h1>
               </CardHeader>
               <CardContent className='space-y-2'>
-                <p className='text-gray-500'><span className='font-semibold text-black'>Breakfast : </span>{meal.breakfast}</p>
-                <p className='text-gray-500'><span className='font-semibold text-black'>Lunch : </span>{meal.lunch}</p>
-                <p className='text-gray-500'><span className='font-semibold text-black'>Dinner : </span>{meal.dinner}</p>
+                <p className='text-gray-500'><span className='font-semibold text-gray-400 '>Breakfast : </span>{meal.breakfast}</p>
+                <p className='text-gray-500'><span className='font-semibold text-gray-400'>Lunch : </span>{meal.lunch}</p>
+                <p className='text-gray-500'><span className='font-semibold text-gray-400'>Dinner : </span>{meal.dinner}</p>
               </CardContent>
             </Card>
           ))
