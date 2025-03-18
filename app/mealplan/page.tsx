@@ -5,6 +5,22 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import axios from 'axios'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+ 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import React, { useEffect, useState, ChangeEvent, FormEvent, useRef } from 'react'
 import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton'
@@ -22,6 +38,7 @@ const Page: React.FC = () => {
   const array=new Array(3).fill(null)
   const mealRef=useRef<HTMLDivElement>(null)
   const [meals, setMeals] = useState<any[]>([])
+  const [exercises, setExercises] = useState<any[]>([])
   const [data, setData] = useState<MealPlanData>({
     dietType: "",
     calorieGoal: "",
@@ -32,9 +49,10 @@ const Page: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Partial<MealPlanData>>({})
   
-  useEffect(() => {
-    console.log(meals)
-  }, [meals])
+  // useEffect(() => {
+  //   console.log(meals)
+  //   console.log(exercises)
+  // }, [meals,exercises])
   
 
   const validate = (): boolean => {
@@ -59,7 +77,9 @@ const Page: React.FC = () => {
     setLoading(true)
     try {
       const response = await axios.post('/api/generate-meal', data)
+      console.log(response.data)
       setMeals(response.data.diet)
+      setExercises(response.data.exercises)
       setData({
         dietType: "",
         calorieGoal: "",
@@ -137,11 +157,32 @@ const Page: React.FC = () => {
                 onChange={onChangeHandler}
                 name='cuisine'
                 value={data.cuisine}
-                placeholder=''
+                placeholder='e.g: indian , japan , china'
                 className=' h-12  border-foreground'
               />
               {errors.cuisine && <p className="text-red-500">{errors.cuisine}</p>}
             </div>
+            <div className='w-full space-y-2'>
+            <Label className="text-sm font-medium">
+                Select Meal Choice
+              </Label>
+
+            <Select   >
+      <SelectTrigger  className="w-full  border-gray-400">
+        <SelectValue placeholder="Meal Choice"  />
+      </SelectTrigger>
+      <SelectContent  >
+        <SelectGroup>
+          <SelectLabel>Meal choice</SelectLabel>
+          <SelectItem value="vegetarian">Vegetarian</SelectItem>
+          <SelectItem value="non-vegetarian">Non-vegetarian</SelectItem>
+          <SelectItem value="Both">Both</SelectItem>
+          
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+            </div>
+
             <div className="flex items-center space-x-2">
               <Checkbox
               className='cursor-pointer border-gray-300'
@@ -185,6 +226,7 @@ const Page: React.FC = () => {
                 <Skeleton className='w-[80vw] md:w-[40vw] h-4'/>
                 <Skeleton className='w-[80vw] md:w-[40vw] h-4'/>
                 <Skeleton className='w-[80vw] md:w-[40vw] h-4'/>
+                <Skeleton className='w-[80vw] md:w-[40vw] h-4'/>
                 
                 
               </CardContent>
@@ -193,17 +235,25 @@ const Page: React.FC = () => {
         }
       </div>:
       
+          <Tabs className='p-3' defaultValue='meals'>
+{meals.length>0?
 
-          <div className='space-y-2 overflow-y-auto border md:border-gray-200 md:min-w-[60vw] rounded-2xl md:h-[80vh] p-3'>
-        {
+<TabsList  className="grid w-full grid-cols-2 rounded-[10px] bg-gray-700">
+        <TabsTrigger className='rounded-[10px] cursor-pointer' value="meals">Meals</TabsTrigger>
+        <TabsTrigger className='rounded-[10px] cursor-pointer' value="exercises">Exercises</TabsTrigger>
+      </TabsList>:<></>
+}
 
-        meals[0]?<h1 className='text-2xl font-bold pb-2'>Weekly Meal Plans</h1>:<></>
-        }
+      <TabsContent value="meals">
+
+
+          <div className='space-y-2 overflow-y-auto border w-full md:border-gray-200 md:min-w-[60vw] rounded-2xl md:h-[80vh] md:p-3'>
+        
         
         
         {
           meals && meals.map((meal, idx) => (
-            <Card className='shadow-2xl bg-black/80 rounded-2xl' key={idx}>
+            <Card className='shadow-2xl bg-black/80 rounded-2xl w-full' key={idx}>
               <CardHeader>
                 <h1 className='text-xl text-blue-400'>{meal.day}</h1>
               </CardHeader>
@@ -211,11 +261,40 @@ const Page: React.FC = () => {
                 <p className='text-gray-500'><span className='font-semibold text-gray-400 '>Breakfast : </span>{meal.breakfast}</p>
                 <p className='text-gray-500'><span className='font-semibold text-gray-400'>Lunch : </span>{meal.lunch}</p>
                 <p className='text-gray-500'><span className='font-semibold text-gray-400'>Dinner : </span>{meal.dinner}</p>
+                {meal.snack&&<p className='text-gray-500'><span className='font-semibold text-gray-400'>Snack : </span>{meal.snack}</p>
+
+                }
               </CardContent>
             </Card>
           ))
         }
       </div>
+        </TabsContent>
+      <TabsContent value="exercises">
+
+
+          <div className='space-y-2 overflow-y-auto border md:border-gray-200 md:min-w-[60vw] rounded-2xl md:h-[80vh] p-3'>
+       
+        
+        
+        {
+          exercises && exercises.map((item, idx) => (
+            <Card className='shadow-2xl bg-black/80 rounded-2xl ' key={idx}>
+              <CardHeader>
+                <h1 className='text-xl text-blue-400'>{item.day}</h1>
+              </CardHeader>
+              <CardContent className='space-y-2'>
+                <p className='text-gray-500'><span className='font-semibold text-gray-400 '>Morning : </span>{item.morning}</p>
+                <p className='text-gray-500'><span className='font-semibold text-gray-400 '>Evening : </span>{item.evening}</p>
+                <p className='text-gray-500'><span className='font-semibold text-gray-400 '>Night : </span>{item.night}</p>
+
+              </CardContent>
+            </Card>
+          ))
+        }
+      </div>
+        </TabsContent>
+        </Tabs>
         }
     </div>
   )

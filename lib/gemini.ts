@@ -15,11 +15,19 @@ export const generateMeal=async (data:string)=>{
         {
         
         "diet":[
-        {"day":"string"
+        {"day":"string",
         "breakfast":"string- 200 calories",
         "lunch":"string",
-        "dinner":"string"
+        "dinner":"string",
+        "snack":"string"
       }
+      ],
+      "exercises":[
+      {"day":"string",
+      "morning":"string - reps and sets",
+      "evening":"string - reps and sets",
+      "night":"string - reps and sets",
+      },
       ]
         }
 
@@ -32,3 +40,13 @@ export const generateMeal=async (data:string)=>{
         const dietJson = JSON.parse(cleanedText);
         return dietJson;
   }
+  // console.log(await generateMeal(
+  //   `dietType: weight gain,
+  // calorieGoal: 1500,
+  // allergies: none,
+  // cuisine: indian,
+  // includeSnacks: true,
+  // dietType:vegetarian
+  // `
+
+  // ))

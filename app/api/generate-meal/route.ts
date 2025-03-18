@@ -12,7 +12,8 @@ export async function POST(req: NextRequest) {
     allergies,
     cuisine,
     includeSnacks,
-    diet:diet.diet
+    diet:diet.diet,
+    exercises:diet.exercises
   };
 
   return NextResponse.json(mealPlan);
