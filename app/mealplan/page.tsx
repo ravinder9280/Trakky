@@ -210,11 +210,7 @@ const Page: React.FC = () => {
         </CardContent>
       </Card>
         {loading?<div ref={mealRef} className='space-y-2 overflow-y-auto md:h-[80vh] p-3'>
-       {
-
-       }
-        <h1 className='text-2xl font-bold text-green-700 pb-2'>Weekly Meal Plan</h1>
-        
+       
         {
           array.map((_, idx) => (
             <Card  key={idx}>
@@ -247,7 +243,7 @@ const Page: React.FC = () => {
       <TabsContent value="meals">
 
 
-          <div className='space-y-2 overflow-y-auto border w-full md:border-gray-200 md:min-w-[60vw] rounded-2xl md:h-[80vh] md:p-3'>
+          <div className='space-y-2 overflow-y-auto scrollbar-hide border w-full md:border-gray-200 md:min-w-[60vw] rounded-2xl md:h-[80vh] md:p-3'>
         
         
         
