@@ -243,13 +243,13 @@ const Page: React.FC = () => {
       <TabsContent value="meals">
 
 
-          <div className='space-y-2 overflow-y-auto scrollbar-hide border w-full md:border-gray-200 md:min-w-[60vw] rounded-2xl md:h-[80vh] md:p-3'>
+          <div className='space-y-2 overflow-y-auto scrollbar-hide border w-full md:border-gray-200 md:w-[60vw] rounded-2xl md:h-[80vh] md:p-3'>
         
         
         
         {
           meals && meals.map((meal, idx) => (
-            <Card className='shadow-2xl bg-black/80 rounded-2xl w-full' key={idx}>
+            <Card className='shadow-2xl bg-black/80 rounded-2xl ' key={idx}>
               <CardHeader>
                 <h1 className='text-xl text-blue-400'>{meal.day}</h1>
               </CardHeader>
@@ -269,7 +269,7 @@ const Page: React.FC = () => {
       <TabsContent value="exercises">
 
 
-          <div className='space-y-2 overflow-y-auto border md:border-gray-200 md:min-w-[60vw] rounded-2xl md:h-[80vh] p-3'>
+          <div className='space-y-2 overflow-y-auto border scrollbar-hide md:border-gray-200 md:min-w-[60vw] rounded-2xl md:h-[80vh] md:p-3'>
        
         
         
