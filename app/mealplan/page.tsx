@@ -209,7 +209,7 @@ const Page: React.FC = () => {
           </form>
         </CardContent>
       </Card>
-        {loading?<div ref={mealRef} className='space-y-2 overflow-y-auto md:h-[80vh] p-3'>
+        {loading?<div ref={mealRef} className='space-y-2 overflow-y-auto md:min-w-[60vw] md:h-[80vh] p-3'>
        
         {
           array.map((_, idx) => (
